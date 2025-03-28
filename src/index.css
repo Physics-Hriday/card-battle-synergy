@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,19 +36,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -96,6 +90,72 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-game-background text-white;
+    font-family: 'Inter', sans-serif;
+    background-image: url('/background.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold;
+  }
+}
+
+@layer components {
+  .game-container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .card-frame {
+    @apply relative rounded-lg overflow-hidden transform transition-all duration-300 shadow-lg hover:shadow-xl;
+  }
+
+  .card-element {
+    @apply absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center text-white font-bold;
+  }
+
+  .element-fire {
+    @apply bg-game-fire;
+  }
+
+  .element-water {
+    @apply bg-game-water;
+  }
+
+  .element-earth {
+    @apply bg-game-earth;
+  }
+
+  .element-air {
+    @apply bg-game-air;
+  }
+
+  .element-light {
+    @apply bg-game-light;
+  }
+
+  .element-dark {
+    @apply bg-game-dark;
+  }
+
+  .btn-game {
+    @apply px-6 py-3 rounded-full font-bold shadow-md transition-all duration-300;
+  }
+
+  .btn-primary {
+    @apply bg-game-primary text-white hover:bg-opacity-90;
+  }
+
+  .btn-secondary {
+    @apply bg-game-secondary text-white hover:bg-opacity-90;
+  }
+
+  .btn-accent {
+    @apply bg-game-accent text-white hover:bg-opacity-90;
+  }
+
+  .glass-panel {
+    @apply backdrop-filter backdrop-blur-lg bg-black bg-opacity-30 rounded-xl p-6;
   }
 }
