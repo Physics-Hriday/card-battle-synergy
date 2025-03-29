@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import GameLayout from "@/components/layout/GameLayout";
 import DeckDisplay from "@/components/cards/DeckDisplay";
 import { mockPlayer, mockDecks } from "@/data/mockData";
-import { Sword, Library, Trophy, ShoppingBag, Users, ArrowRight, Zap } from "lucide-react";
+import { Sword, Library, Trophy, ShoppingBag, ArrowRight, Zap, Info } from "lucide-react";
 
 const Home = () => {
   return (
@@ -16,8 +16,8 @@ const Home = () => {
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="flex-1">
               <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                Welcome to <span className="text-game-primary">Synergy</span>
-                <span className="text-game-accent">Clash</span>
+                Welcome to <span className="text-game-primary">Poki</span>
+                <span className="text-game-accent ml-1">War</span>
               </h1>
               <p className="text-lg text-gray-300 mb-6">
                 Build your deck, master the elements, and challenge players from around the world in strategic card battles!
@@ -40,7 +40,7 @@ const Home = () => {
                 <img 
                   src="/cards/c1.png" 
                   alt="Featured Card" 
-                  className="w-56 h-80 object-cover rounded-lg z-10 relative"
+                  className="w-56 h-80 object-cover rounded-lg z-10 relative hover:scale-105 transition-transform"
                 />
               </div>
             </div>
@@ -141,11 +141,11 @@ const Home = () => {
             to="/shop"
           />
           <QuickAction 
-            title="Leaderboard" 
-            description="See top players" 
-            icon={<Trophy size={24} />} 
+            title="About" 
+            description="Learn about PokeWar" 
+            icon={<Info size={24} />} 
             color="bg-game-light"
-            to="/leaderboard"
+            to="/about"
           />
         </div>
       </div>
@@ -162,7 +162,7 @@ const StatCard = ({
   value: string; 
   icon: React.ReactNode 
 }) => (
-  <div className="bg-white/5 rounded-lg p-4">
+  <div className="bg-white/5 rounded-lg p-4 hover:bg-white/10 transition-colors">
     <div className="flex items-center mb-2">
       <div className="mr-2">{icon}</div>
       <h3 className="text-sm text-gray-300">{title}</h3>

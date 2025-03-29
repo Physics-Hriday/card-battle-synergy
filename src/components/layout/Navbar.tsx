@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sword, Library, Trophy, ShoppingBag, Settings, LogOut } from "lucide-react";
+import { Sword, Library, Trophy, ShoppingBag, Settings, LogOut, Info } from "lucide-react";
 import { mockPlayer } from "@/data/mockData";
 
 const Navbar = () => {
@@ -20,8 +20,8 @@ const Navbar = () => {
       <div className="game-container flex items-center justify-between">
         <div className="flex items-center space-x-6">
           <Link to="/" className="text-2xl font-bold text-white flex items-center">
-            <span className="text-game-primary">Synergy</span>
-            <span className="text-game-accent ml-1">Clash</span>
+            <span className="text-game-primary">Poki</span>
+            <span className="text-game-accent ml-1">War</span>
           </Link>
           
           <div className="hidden md:flex items-center space-x-4">
@@ -29,6 +29,7 @@ const Navbar = () => {
             <NavLink to="/collection" icon={<Library size={18} />} label="Collection" />
             <NavLink to="/leaderboard" icon={<Trophy size={18} />} label="Leaderboard" />
             <NavLink to="/shop" icon={<ShoppingBag size={18} />} label="Shop" />
+            <NavLink to="/about" icon={<Info size={18} />} label="About" />
           </div>
         </div>
         
@@ -53,7 +54,7 @@ const Navbar = () => {
               <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                 <Avatar>
                   <AvatarImage src="/avatars/avatar1.png" alt="Avatar" />
-                  <AvatarFallback>CM</AvatarFallback>
+                  <AvatarFallback>PW</AvatarFallback>
                 </Avatar>
                 <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-game-primary text-white text-xs rounded-full flex items-center justify-center">
                   {mockPlayer.level}
