@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import GameLayout from "@/components/layout/GameLayout";
 import DeckDisplay from "@/components/cards/DeckDisplay";
 import { mockPlayer, mockDecks } from "@/data/mockData";
-import { Sword, Cards, Trophy, ShoppingBag, Users, ArrowRight, Zap } from "lucide-react";
+import { Sword, Library, Trophy, ShoppingBag, Users, ArrowRight, Zap } from "lucide-react";
 
 const Home = () => {
   return (
@@ -28,7 +28,7 @@ const Home = () => {
                   <span>Quick Battle</span>
                 </Button>
                 <Button variant="outline" className="border-game-primary text-game-primary hover:bg-game-primary/10 flex items-center gap-2">
-                  <Cards size={18} />
+                  <Library size={18} />
                   <span>Build Deck</span>
                 </Button>
               </div>
@@ -87,7 +87,7 @@ const Home = () => {
             <StatCard 
               title="Cards Owned" 
               value={mockPlayer.collection.length.toString()} 
-              icon={<Cards className="text-game-secondary" />} 
+              icon={<Library className="text-game-secondary" />} 
             />
             <StatCard 
               title="Win Rate" 
@@ -111,7 +111,7 @@ const Home = () => {
               <DeckDisplay key={deck.id} deck={deck} />
             ))}
             <div className="aspect-[3/4] bg-white/5 border-2 border-dashed border-white/20 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:bg-white/10 transition-colors">
-              <Cards className="w-12 h-12 text-white/50 mb-4" />
+              <Library className="w-12 h-12 text-white/50 mb-4" />
               <span className="font-bold text-white/70">Create New Deck</span>
             </div>
           </div>
@@ -129,7 +129,7 @@ const Home = () => {
           <QuickAction 
             title="Collection" 
             description="View your card collection" 
-            icon={<Cards size={24} />} 
+            icon={<Library size={24} />} 
             color="bg-game-water"
             to="/collection"
           />

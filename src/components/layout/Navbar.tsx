@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sword, Cards, Trophy, ShoppingBag, Settings, LogOut } from "lucide-react";
+import { Sword, Library, Trophy, ShoppingBag, Settings, LogOut } from "lucide-react";
 import { mockPlayer } from "@/data/mockData";
 
 const Navbar = () => {
@@ -26,7 +26,7 @@ const Navbar = () => {
           
           <div className="hidden md:flex items-center space-x-4">
             <NavLink to="/battle" icon={<Sword size={18} />} label="Battle" />
-            <NavLink to="/collection" icon={<Cards size={18} />} label="Collection" />
+            <NavLink to="/collection" icon={<Library size={18} />} label="Collection" />
             <NavLink to="/leaderboard" icon={<Trophy size={18} />} label="Leaderboard" />
             <NavLink to="/shop" icon={<ShoppingBag size={18} />} label="Shop" />
           </div>

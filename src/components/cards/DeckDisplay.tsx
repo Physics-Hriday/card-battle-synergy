@@ -3,7 +3,7 @@ import React from "react";
 import { Deck } from "@/types/game";
 import GameCard from "./GameCard";
 import { cn } from "@/lib/utils";
-import { Cards } from "lucide-react";
+import { LayoutGrid } from "lucide-react";
 
 interface DeckDisplayProps {
   deck: Deck;
@@ -25,7 +25,7 @@ const DeckDisplay = ({ deck, onClick, className }: DeckDisplayProps) => {
           <GameCard card={deck.coverCard} size="lg" className="w-full h-full" />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-game-background">
-            <Cards className="w-16 h-16 text-game-primary opacity-50" />
+            <LayoutGrid className="w-16 h-16 text-game-primary opacity-50" />
           </div>
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
