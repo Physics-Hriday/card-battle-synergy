@@ -11,6 +11,12 @@ import LeaderboardPage from "./pages/LeaderboardPage";
 import ShopPage from "./pages/ShopPage";
 import AboutPage from "./pages/AboutPage";
 import FAQPage from "./pages/FAQPage";
+import GuidesPage from "./pages/GuidesPage";
+import UpdatesPage from "./pages/UpdatesPage";
+import TermsPage from "./pages/TermsPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import CookiesPage from "./pages/CookiesPage";
+import ContactPage from "./pages/ContactPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,7 +34,13 @@ const App = () => (
           <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="/shop" element={<ShopPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/guides" element={<GuidesPage />} />
+          <Route path="/updates" element={<UpdatesPage />} />
           <Route path="/faq" element={<FAQPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="/cookies" element={<CookiesPage />} />
+          <Route path="/contact" element={<ContactPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -3,7 +3,7 @@ import React from "react";
 import GameLayout from "@/components/layout/GameLayout";
 import { Card, CardHeader, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Github, Mail, Linkedin } from "lucide-react";
+import { Github, Mail, Twitter } from "lucide-react";
 
 const AboutPage = () => {
   return (
@@ -47,6 +47,7 @@ const AboutPage = () => {
             name="Hriday Kadam"
             role="Lead Developer"
             bio="Passionate game developer with expertise in React and TypeScript."
+            twitter="@hridaykadam"
           />
         </div>
       </div>
@@ -61,7 +62,17 @@ const ElementCard = ({ name, emoji, color }: { name: string; emoji: string; colo
   </div>
 );
 
-const DeveloperCard = ({ name, role, bio }: { name: string; role: string; bio: string }) => (
+const DeveloperCard = ({ 
+  name, 
+  role, 
+  bio, 
+  twitter 
+}: { 
+  name: string; 
+  role: string; 
+  bio: string; 
+  twitter: string; 
+}) => (
   <Card className="bg-white/5 border-white/10 overflow-hidden">
     <CardHeader className="pb-2">
       <div className="bg-gradient-to-r from-game-primary to-game-secondary h-24 w-full absolute top-0 left-0 rounded-t-lg"></div>
@@ -75,14 +86,17 @@ const DeveloperCard = ({ name, role, bio }: { name: string; role: string; bio: s
     </CardHeader>
     <CardContent>
       <p className="text-gray-300 text-center">{bio}</p>
+      <p className="text-game-primary text-center mt-2">{twitter}</p>
     </CardContent>
     <CardFooter className="flex justify-center gap-4 pt-2">
       <Button variant="outline" size="icon" className="rounded-full">
         <Github className="h-4 w-4" />
       </Button>
-      <Button variant="outline" size="icon" className="rounded-full">
-        <Linkedin className="h-4 w-4" />
-      </Button>
+      <a href={`https://twitter.com/${twitter.slice(1)}`} target="_blank" rel="noopener noreferrer">
+        <Button variant="outline" size="icon" className="rounded-full">
+          <Twitter className="h-4 w-4" />
+        </Button>
+      </a>
       <Button variant="outline" size="icon" className="rounded-full">
         <Mail className="h-4 w-4" />
       </Button>
