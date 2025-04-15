@@ -1,7 +1,6 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Github, Linkedin } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -13,17 +12,9 @@ const Footer = () => {
               <span className="text-game-primary">Poki</span>
               <span className="text-game-accent ml-1">War</span>
             </Link>
-            <p className="mt-4 text-gray-400 text-sm">
+            <p className="mt-4 text-gray-400 text-sm font-medium">
               A strategic card battle game with unique elemental synergies and competitive gameplay.
             </p>
-            <div className="flex mt-4 space-x-4">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-                <Github size={20} />
-              </a>
-              <a href="https://www.linkedin.com/in/hridaykadam/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-                <Linkedin size={20} />
-              </a>
-            </div>
           </div>
           
           <div>
@@ -58,11 +49,18 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-white/10 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">
+          <p className="text-gray-400 text-sm font-medium">
             &copy; {new Date().getFullYear()} Poki War. All rights reserved.
           </p>
           <p className="text-gray-400 text-sm mt-4 md:mt-0">
-            Designed & Developed by <a href="https://www.linkedin.com/in/hridaykadam/" target="_blank" rel="noopener noreferrer" className="text-game-primary hover:text-game-primary/80 transition-colors">Hriday Kadam</a>
+            Designed & Developed by <a 
+              href="https://www.linkedin.com/in/hridaykadam/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-game-primary hover:text-game-primary/80 transition-colors font-medium"
+            >
+              Hriday Kadam
+            </a>
           </p>
         </div>
       </div>
@@ -74,7 +72,7 @@ const FooterLink = ({ to, label }: { to: string; label: string }) => (
   <li>
     <Link
       to={to}
-      className="text-gray-400 hover:text-white transition-colors"
+      className="text-gray-400 hover:text-white transition-colors font-medium"
     >
       {label}
     </Link>

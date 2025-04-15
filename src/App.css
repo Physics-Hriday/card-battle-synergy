@@ -1,8 +1,13 @@
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+}
+
+.card {
+  padding: 2em;
 }
 
 .logo {
@@ -11,9 +16,11 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -33,10 +40,31 @@
   }
 }
 
-.card {
-  padding: 2em;
+.text-content {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .read-the-docs {
   color: #888;
+  font-weight: 500;
+}
+
+/* Ensure text is always readable on any background */
+.text-overlay {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Improve button visibility */
+.button-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* Enhanced hover states */
+.hover-effect {
+  transition: all 0.3s ease;
+}
+
+.hover-effect:hover {
+  transform: translateY(-2px);
 }
