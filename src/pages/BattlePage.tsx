@@ -1,8 +1,9 @@
+
 import { useState } from "react";
 import GameLayout from "@/components/layout/GameLayout";
 import { mockCards } from "@/data/mockData";
 import { Card as CardType } from "@/types/game";
-import { calculateDamage } from "@/utils/battleMechanics";
+import { calculateDamage, canPlayCard } from "@/utils/battleMechanics";
 import { toast } from "sonner";
 import PlayerArea from "@/components/battle/PlayerArea";
 import BattleField from "@/components/battle/BattleField";
