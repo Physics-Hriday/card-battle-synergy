@@ -2,6 +2,7 @@
 import { Card } from '@/types/game';
 import { drawRandomCard } from './battleMechanics';
 import { toast } from 'sonner';
+import { mockCards } from '@/data/mockData';
 
 export interface PackType {
   id: string;

@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import GameLayout from "@/components/layout/GameLayout";
 import GameCard from "@/components/cards/GameCard";
@@ -52,6 +53,18 @@ const BattlePage = () => {
     } else {
       setSelectedCard(card);
       setTargetCard(null);
+    }
+  };
+  
+  const handleTargetSelect = (card: CardType) => {
+    if (!isPlayerTurn || !selectedCard) {
+      return;
+    }
+    
+    if (targetCard?.id === card.id) {
+      setTargetCard(null);
+    } else {
+      setTargetCard(card);
     }
   };
 

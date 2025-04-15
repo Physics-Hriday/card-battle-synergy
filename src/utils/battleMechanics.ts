@@ -1,5 +1,6 @@
 
 import { Card, ElementType } from '@/types/game';
+import { mockCards } from '@/data/mockData';
 
 const elementEffectiveness: Record<ElementType, ElementType[]> = {
   fire: ['earth', 'air'],

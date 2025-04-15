@@ -4,7 +4,7 @@ import GameLayout from "@/components/layout/GameLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGameStore } from "@/utils/gameState";
-import { packTypes, purchasePack, openPack } from "@/utils/shop";
+import { packTypes, openPack, purchasePack, PackType } from "@/utils/shop";
 import { Coins, Gem } from "lucide-react";
 
 const ShopPage = () => {
