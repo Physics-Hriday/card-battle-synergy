@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Github, Twitter, Instagram } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -20,11 +20,8 @@ const Footer = () => {
               <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                 <Github size={20} />
               </a>
-              <a href="https://twitter.com/hridaykadam" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-                <Twitter size={20} />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
-                <Instagram size={20} />
+              <a href="https://www.linkedin.com/in/hridaykadam/" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
+                <Linkedin size={20} />
               </a>
             </div>
           </div>
@@ -65,7 +62,7 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} Poki War. All rights reserved.
           </p>
           <p className="text-gray-400 text-sm mt-4 md:mt-0">
-            Made with ❤️ by Hriday Kadam
+            Designed & Developed by <a href="https://www.linkedin.com/in/hridaykadam/" target="_blank" rel="noopener noreferrer" className="text-game-primary hover:text-game-primary/80 transition-colors">Hriday Kadam</a>
           </p>
         </div>
       </div>
