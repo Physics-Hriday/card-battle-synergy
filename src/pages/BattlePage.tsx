@@ -1,31 +1,13 @@
-
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import GameLayout from "@/components/layout/GameLayout";
-import GameCard from "@/components/cards/GameCard";
-import { Button } from "@/components/ui/button";
-import { mockCards, mockPlayer } from "@/data/mockData";
-import { Sword, Shield, User, Clock } from "lucide-react";
+import { mockCards } from "@/data/mockData";
 import { Card as CardType } from "@/types/game";
-import { Progress } from "@/components/ui/progress";
-import { calculateDamage, canPlayCard } from "@/utils/battleMechanics";
-import { useGameStore } from "@/utils/gameState";
+import { calculateDamage } from "@/utils/battleMechanics";
 import { toast } from "sonner";
-
-interface BattlePageState {
-  playerHealth: number;
-  playerEnergy: number;
-  opponentHealth: number;
-  opponentEnergy: number;
-  playerHand: CardType[];
-  opponentHand: CardType[];
-  playerField: CardType[];
-  opponentField: CardType[];
-  selectedCard: CardType | null;
-  targetCard: CardType | null;
-  turn: number;
-  isPlayerTurn: boolean;
-  gameLog: string[];
-}
+import PlayerArea from "@/components/battle/PlayerArea";
+import BattleField from "@/components/battle/BattleField";
+import HandArea from "@/components/battle/HandArea";
+import BattleLog from "@/components/battle/BattleLog";
 
 const BattlePage = () => {
   const [playerHealth, setPlayerHealth] = useState(30);
@@ -41,7 +23,7 @@ const BattlePage = () => {
   const [turn, setTurn] = useState(1);
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [gameLog, setGameLog] = useState<string[]>(["Game started. Your turn!"]);
-  
+
   const handleCardSelect = (card: CardType) => {
     if (!isPlayerTurn) {
       toast.error("It's not your turn!");
@@ -191,7 +173,6 @@ const BattlePage = () => {
       <div className="mb-4">
         <h1 className="text-3xl font-bold mb-2">Battle Arena</h1>
         <div className="flex items-center text-sm text-gray-300">
-          <Clock className="mr-1 w-4 h-4" />
           <span>Turn {turn}</span>
           <span className="mx-2">•</span>
           <span className={isPlayerTurn ? "text-game-primary" : "text-game-accent"}>
@@ -203,223 +184,47 @@ const BattlePage = () => {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div className="col-span-2">
           <div className="glass-panel mb-6">
-            <div className="flex justify-between items-center mb-6">
-              <div className="flex items-center">
-                <div className="relative">
-                  <img 
-                    src="/avatars/opponent.png" 
-                    alt="Opponent" 
-                    className="w-12 h-12 rounded-full border-2 border-game-accent"
-                  />
-                  <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-game-accent text-white text-xs rounded-full flex items-center justify-center">
-                    20
-                  </div>
-                </div>
-                <div className="ml-3">
-                  <h3 className="font-bold">Challenger</h3>
-                  <div className="text-xs text-gray-400">
-                    <span className="text-game-accent">Diamond</span> Rank
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-4">
-                <div>
-                  <div className="text-xs text-gray-400 mb-1">Health</div>
-                  <div className="flex items-center">
-                    <Progress value={(opponentHealth / 30) * 100} className="w-32 h-2 bg-white/20" />
-                    <span className="ml-2 text-sm font-bold">{opponentHealth}/30</span>
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="text-xs text-gray-400 mb-1">Energy</div>
-                  <div className="flex items-center">
-                    <div className="flex space-x-1">
-                      {Array.from({ length: 10 }).map((_, i) => (
-                        <div 
-                          key={i}
-                          className={`w-3 h-3 rounded-full ${i < opponentEnergy ? 'bg-game-primary' : 'bg-white/20'}`}
-                        />
-                      ))}
-                    </div>
-                    <span className="ml-2 text-sm font-bold">{opponentEnergy}/10</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <PlayerArea
+              health={opponentHealth}
+              maxHealth={30}
+              energy={opponentEnergy}
+              maxEnergy={10}
+              isOpponent={true}
+            />
             
-            <div className="bg-black/20 rounded-lg p-4 mb-4">
-              <h3 className="text-sm font-bold mb-3 text-gray-400">Opponent's Field</h3>
-              <div className="flex justify-center gap-4">
-                {opponentField.length > 0 ? (
-                  opponentField.map(card => (
-                    <div 
-                      key={card.id} 
-                      className="cursor-pointer" 
-                      onClick={() => handleTargetSelect(card)}
-                    >
-                      <GameCard 
-                        card={card} 
-                        size="sm" 
-                        className={targetCard?.id === card.id ? "ring-2 ring-game-accent" : ""}
-                      />
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-gray-500 py-8">No cards on field</div>
-                )}
-              </div>
-            </div>
+            <BattleField
+              opponentField={opponentField}
+              playerField={playerField}
+              selectedCard={selectedCard}
+              targetCard={targetCard}
+              onCardSelect={handleCardSelect}
+              onTargetSelect={handleTargetSelect}
+              isPlayerTurn={isPlayerTurn}
+            />
             
-            <div className="relative py-8">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-r from-game-fire to-game-water opacity-20 animate-pulse"></div>
-              </div>
-              <div className="flex justify-center items-center">
-                <div className="bg-white/10 backdrop-blur-sm px-4 py-1 rounded-full">
-                  <Sword className="w-6 h-6 text-game-accent" />
-                </div>
-              </div>
-            </div>
-            
-            <div className="bg-black/20 rounded-lg p-4 mb-4">
-              <h3 className="text-sm font-bold mb-3 text-gray-400">Your Field</h3>
-              <div className="flex justify-center gap-4">
-                {playerField.length > 0 ? (
-                  playerField.map(card => (
-                    <div 
-                      key={card.id} 
-                      className="cursor-pointer" 
-                      onClick={() => handleCardSelect(card)}
-                    >
-                      <GameCard 
-                        card={card} 
-                        size="sm" 
-                        className={selectedCard?.id === card.id ? "ring-2 ring-game-primary" : ""}
-                      />
-                    </div>
-                  ))
-                ) : (
-                  <div className="text-gray-500 py-8">No cards on field</div>
-                )}
-              </div>
-            </div>
-            
-            <div className="flex justify-between items-center">
-              <div className="flex items-center">
-                <div className="relative">
-                  <img 
-                    src={mockPlayer.avatar} 
-                    alt="Player" 
-                    className="w-12 h-12 rounded-full border-2 border-game-primary"
-                  />
-                  <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-game-primary text-white text-xs rounded-full flex items-center justify-center">
-                    {mockPlayer.level}
-                  </div>
-                </div>
-                <div className="ml-3">
-                  <h3 className="font-bold">{mockPlayer.username}</h3>
-                  <div className="text-xs text-gray-400">
-                    <span className="text-game-primary">{mockPlayer.stats.rankName}</span> Rank
-                  </div>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-4">
-                <div>
-                  <div className="text-xs text-gray-400 mb-1">Health</div>
-                  <div className="flex items-center">
-                    <Progress value={(playerHealth / 30) * 100} className="w-32 h-2 bg-white/20" />
-                    <span className="ml-2 text-sm font-bold">{playerHealth}/30</span>
-                  </div>
-                </div>
-                
-                <div>
-                  <div className="text-xs text-gray-400 mb-1">Energy</div>
-                  <div className="flex items-center">
-                    <div className="flex space-x-1">
-                      {Array.from({ length: 10 }).map((_, i) => (
-                        <div 
-                          key={i}
-                          className={`w-3 h-3 rounded-full ${i < playerEnergy ? 'bg-game-primary' : 'bg-white/20'}`}
-                        />
-                      ))}
-                    </div>
-                    <span className="ml-2 text-sm font-bold">{playerEnergy}/10</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <PlayerArea
+              health={playerHealth}
+              maxHealth={30}
+              energy={playerEnergy}
+              maxEnergy={10}
+              isOpponent={false}
+            />
           </div>
           
-          <div className="glass-panel">
-            <h3 className="text-sm font-bold mb-3 text-gray-400">Your Hand</h3>
-            <div className="flex justify-center gap-4 overflow-x-auto pb-2">
-              {playerHand.length > 0 ? (
-                playerHand.map(card => (
-                  <div 
-                    key={card.id} 
-                    className="cursor-pointer" 
-                    onClick={() => handleCardSelect(card)}
-                  >
-                    <GameCard 
-                      card={card} 
-                      size="sm" 
-                      className={selectedCard?.id === card.id ? "ring-2 ring-game-primary" : ""}
-                    />
-                  </div>
-                ))
-              ) : (
-                <div className="text-gray-500 py-8">No cards in hand</div>
-              )}
-            </div>
-            <div className="mt-4 flex justify-center space-x-4">
-              <Button 
-                onClick={handlePlayCard} 
-                disabled={!selectedCard || !isPlayerTurn || playerEnergy < (selectedCard?.cost || 0)}
-                className="bg-game-primary hover:bg-game-primary/90"
-              >
-                Play Card
-              </Button>
-              <Button 
-                onClick={handleAttack} 
-                disabled={!selectedCard || !targetCard || !isPlayerTurn}
-                className="bg-game-accent hover:bg-game-accent/90"
-              >
-                <Sword className="mr-2 w-4 h-4" />
-                Attack
-              </Button>
-              <Button 
-                onClick={handleEndTurn} 
-                disabled={!isPlayerTurn}
-                variant="outline"
-                className="border-white/20"
-              >
-                End Turn
-              </Button>
-            </div>
-          </div>
+          <HandArea
+            playerHand={playerHand}
+            selectedCard={selectedCard}
+            onCardSelect={handleCardSelect}
+            onPlayCard={handlePlayCard}
+            onAttack={handleAttack}
+            onEndTurn={handleEndTurn}
+            isPlayerTurn={isPlayerTurn}
+            targetCard={targetCard}
+            playerEnergy={playerEnergy}
+          />
         </div>
         
-        <div className="glass-panel h-[calc(100vh-16rem)] overflow-auto">
-          <h3 className="text-lg font-bold mb-4">Battle Log</h3>
-          <div className="space-y-2">
-            {gameLog.map((log, index) => (
-              <div 
-                key={index} 
-                className={`p-2 rounded-lg ${index === 0 ? 'bg-white/10' : ''}`}
-              >
-                <p className="text-sm">{log}</p>
-                {index === 0 && (
-                  <div className="text-xs text-gray-500 mt-1">
-                    Turn {turn} - {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
+        <BattleLog logs={gameLog} turn={turn} />
       </div>
     </GameLayout>
   );
