@@ -1,11 +1,30 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import GameLayout from "@/components/layout/GameLayout";
 import GameCard from "@/components/cards/GameCard";
 import { Button } from "@/components/ui/button";
 import { mockCards, mockPlayer } from "@/data/mockData";
-import { Sword, Shield, Zap, User, Clock } from "lucide-react";
+import { Sword, Shield, User, Clock } from "lucide-react";
 import { Card as CardType } from "@/types/game";
 import { Progress } from "@/components/ui/progress";
+import { calculateDamage, canPlayCard } from "@/utils/battleMechanics";
+import { useGameStore } from "@/utils/gameState";
+import { toast } from "sonner";
+
+interface BattlePageState {
+  playerHealth: number;
+  playerEnergy: number;
+  opponentHealth: number;
+  opponentEnergy: number;
+  playerHand: CardType[];
+  opponentHand: CardType[];
+  playerField: CardType[];
+  opponentField: CardType[];
+  selectedCard: CardType | null;
+  targetCard: CardType | null;
+  turn: number;
+  isPlayerTurn: boolean;
+  gameLog: string[];
+}
 
 const BattlePage = () => {
   const [playerHealth, setPlayerHealth] = useState(30);
@@ -21,9 +40,12 @@ const BattlePage = () => {
   const [turn, setTurn] = useState(1);
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [gameLog, setGameLog] = useState<string[]>(["Game started. Your turn!"]);
-
+  
   const handleCardSelect = (card: CardType) => {
-    if (!isPlayerTurn) return;
+    if (!isPlayerTurn) {
+      toast.error("It's not your turn!");
+      return;
+    }
     
     if (selectedCard?.id === card.id) {
       setSelectedCard(null);
@@ -33,31 +55,10 @@ const BattlePage = () => {
     }
   };
 
-  const handleTargetSelect = (card: CardType) => {
-    if (!selectedCard || !isPlayerTurn) return;
-    setTargetCard(card);
-  };
-
-  const handlePlayCard = () => {
-    if (!selectedCard || !isPlayerTurn) return;
-    
-    if (playerEnergy < selectedCard.cost) {
-      addToGameLog("Not enough energy to play this card!");
-      return;
-    }
-
-    setPlayerHand(playerHand.filter(card => card.id !== selectedCard.id));
-    setPlayerField([...playerField, selectedCard]);
-    setPlayerEnergy(playerEnergy - selectedCard.cost);
-    
-    addToGameLog(`You played ${selectedCard.name}`);
-    setSelectedCard(null);
-  };
-
   const handleAttack = () => {
     if (!selectedCard || !targetCard || !isPlayerTurn) return;
     
-    const damage = selectedCard.attack;
+    const damage = calculateDamage(selectedCard, targetCard);
     addToGameLog(`${selectedCard.name} attacks ${targetCard.name} for ${damage} damage!`);
     
     if (opponentField.some(card => card.id === targetCard.id)) {
@@ -75,10 +76,41 @@ const BattlePage = () => {
     } else {
       setOpponentHealth(Math.max(0, opponentHealth - damage));
       addToGameLog(`You dealt ${damage} damage to opponent!`);
+      
+      if (opponentHealth - damage <= 0) {
+        handleGameEnd('player');
+      }
     }
     
     setSelectedCard(null);
     setTargetCard(null);
+  };
+
+  const handlePlayCard = () => {
+    if (!selectedCard || !isPlayerTurn) return;
+    
+    if (!canPlayCard(selectedCard, playerEnergy)) {
+      toast.error("Not enough energy to play this card!");
+      return;
+    }
+
+    setPlayerHand(playerHand.filter(card => card.id !== selectedCard.id));
+    setPlayerField([...playerField, selectedCard]);
+    setPlayerEnergy(playerEnergy - selectedCard.cost);
+    
+    addToGameLog(`You played ${selectedCard.name}`);
+    setSelectedCard(null);
+  };
+
+  const handleGameEnd = (winner: 'player' | 'opponent') => {
+    if (winner === 'player') {
+      toast.success("Victory! You've won the battle!");
+      // Add rewards logic here
+    } else {
+      toast.error("Defeat! Better luck next time!");
+    }
+    
+    // Reset game state or redirect to results page
   };
 
   const handleEndTurn = () => {
