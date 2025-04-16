@@ -2,8 +2,8 @@
 import React from "react";
 import { Card as CardType } from "@/types/game";
 import GameCard from "@/components/cards/GameCard";
-import { Button } from "@/components/ui/button";
-import { Sword } from "lucide-react";
+import { Sword, Play, SkipForward } from "lucide-react";
+import { AnimatedButton } from "@/components/ui/animated-button";
 
 interface HandAreaProps {
   playerHand: CardType[];
@@ -36,7 +36,7 @@ const HandArea = ({
           playerHand.map(card => (
             <div 
               key={card.id} 
-              className="cursor-pointer" 
+              className={`cursor-pointer battle-card ${selectedCard?.id === card.id ? 'battle-card-selected' : ''}`}
               onClick={() => onCardSelect(card)}
             >
               <GameCard 
@@ -50,30 +50,34 @@ const HandArea = ({
           <div className="text-gray-500 py-8">No cards in hand</div>
         )}
       </div>
-      <div className="mt-4 flex justify-center space-x-4">
-        <Button 
+      <div className="mt-6 flex justify-center space-x-4">
+        <AnimatedButton 
+          variant="primary"
+          leftIcon={<Play className="w-4 h-4" />}
           onClick={onPlayCard} 
           disabled={!selectedCard || !isPlayerTurn || playerEnergy < (selectedCard?.cost || 0)}
-          className="bg-game-primary hover:bg-game-primary/90"
+          animation={isPlayerTurn && selectedCard && playerEnergy >= (selectedCard?.cost || 0) ? "pulse" : "none"}
         >
           Play Card
-        </Button>
-        <Button 
+        </AnimatedButton>
+        <AnimatedButton 
+          variant="accent"
+          leftIcon={<Sword className="w-4 h-4" />}
           onClick={onAttack} 
           disabled={!selectedCard || !targetCard || !isPlayerTurn}
-          className="bg-game-accent hover:bg-game-accent/90"
+          animation={selectedCard && targetCard && isPlayerTurn ? "pulse" : "none"}
         >
-          <Sword className="mr-2 w-4 h-4" />
           Attack
-        </Button>
-        <Button 
+        </AnimatedButton>
+        <AnimatedButton 
+          variant="outline"
+          leftIcon={<SkipForward className="w-4 h-4" />}
           onClick={onEndTurn} 
           disabled={!isPlayerTurn}
-          variant="outline"
-          className="border-white/20"
+          animation={isPlayerTurn ? "float" : "none"}
         >
           End Turn
-        </Button>
+        </AnimatedButton>
       </div>
     </div>
   );

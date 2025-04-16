@@ -171,4 +171,56 @@
   .hover-card {
     @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl;
   }
+  
+  /* Battle animations */
+  .battle-card {
+    @apply transition-all duration-300;
+  }
+  
+  .battle-card-selected {
+    @apply ring-2 ring-game-primary transform scale-105;
+  }
+  
+  .battle-card-targeted {
+    @apply ring-2 ring-game-accent;
+  }
+  
+  .battle-field-pulse {
+    @apply animate-pulse;
+  }
+  
+  @keyframes shine {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0); 
+    }
+    50% { 
+      transform: translateY(-8px); 
+    }
+  }
+  
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  @keyframes glow {
+    0%, 100% { 
+      filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.7)); 
+    }
+    50% { 
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 1)); 
+    }
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite;
+  }
 }

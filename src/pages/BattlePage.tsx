@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import GameLayout from "@/components/layout/GameLayout";
 import { mockCards } from "@/data/mockData";
@@ -96,6 +95,8 @@ const BattlePage = () => {
     
     addToGameLog(`You played ${selectedCard.name}`);
     setSelectedCard(null);
+    
+    toast.success(`Successfully played ${selectedCard.name}!`);
   };
 
   const handleGameEnd = (winner: 'player' | 'opponent') => {
@@ -115,54 +116,54 @@ const BattlePage = () => {
     setIsPlayerTurn(false);
     addToGameLog("You ended your turn. Opponent's turn now.");
     
-    setTimeout(() => {
-      if (opponentHand.length > 0 && opponentEnergy >= opponentHand[0].cost) {
-        const cardToPlay = opponentHand[0];
-        setOpponentHand(opponentHand.filter((_, index) => index !== 0));
-        setOpponentField([...opponentField, cardToPlay]);
-        setOpponentEnergy(opponentEnergy - cardToPlay.cost);
-        addToGameLog(`Opponent played ${cardToPlay.name}`);
-      }
+    toast.info("Turn ended. Opponent is thinking...");
+    
+    if (opponentHand.length > 0 && opponentEnergy >= opponentHand[0].cost) {
+      const cardToPlay = opponentHand[0];
+      setOpponentHand(opponentHand.filter((_, index) => index !== 0));
+      setOpponentField([...opponentField, cardToPlay]);
+      setOpponentEnergy(opponentEnergy - cardToPlay.cost);
+      addToGameLog(`Opponent played ${cardToPlay.name}`);
+    }
+    
+    if (opponentField.length > 0) {
+      const attackingCard = opponentField[0];
+      const damage = attackingCard.attack;
       
-      if (opponentField.length > 0) {
-        const attackingCard = opponentField[0];
-        const damage = attackingCard.attack;
+      if (playerField.length > 0) {
+        const targetCard = playerField[0];
+        addToGameLog(`Opponent's ${attackingCard.name} attacks your ${targetCard.name} for ${damage} damage!`);
         
-        if (playerField.length > 0) {
-          const targetCard = playerField[0];
-          addToGameLog(`Opponent's ${attackingCard.name} attacks your ${targetCard.name} for ${damage} damage!`);
-          
-          setPlayerField(playerField.map(card => {
-            if (card.id === targetCard.id) {
-              const updatedHealth = card.defense - damage;
-              if (updatedHealth <= 0) {
-                addToGameLog(`Your ${targetCard.name} was destroyed!`);
-                return { ...card, defense: 0 };
-              }
-              return { ...card, defense: updatedHealth };
+        setPlayerField(playerField.map(card => {
+          if (card.id === targetCard.id) {
+            const updatedHealth = card.defense - damage;
+            if (updatedHealth <= 0) {
+              addToGameLog(`Your ${targetCard.name} was destroyed!`);
+              return { ...card, defense: 0 };
             }
-            return card;
-          }).filter(card => card.defense > 0));
-        } else {
-          setPlayerHealth(Math.max(0, playerHealth - damage));
-          addToGameLog(`Opponent dealt ${damage} damage to you!`);
-        }
+            return { ...card, defense: updatedHealth };
+          }
+          return card;
+        }).filter(card => card.defense > 0));
+      } else {
+        setPlayerHealth(Math.max(0, playerHealth - damage));
+        addToGameLog(`Opponent dealt ${damage} damage to you!`);
       }
+    }
+    
+    setTimeout(() => {
+      setTurn(turn + 1);
+      setPlayerEnergy(Math.min(10, playerEnergy + 2));
+      setOpponentEnergy(Math.min(10, opponentEnergy + 2));
+      setIsPlayerTurn(true);
+      addToGameLog(`Turn ${turn + 1}. Your turn!`);
       
-      setTimeout(() => {
-        setTurn(turn + 1);
-        setPlayerEnergy(Math.min(10, playerEnergy + 2));
-        setOpponentEnergy(Math.min(10, opponentEnergy + 2));
-        setIsPlayerTurn(true);
-        addToGameLog(`Turn ${turn + 1}. Your turn!`);
-        
-        if (mockCards.length > 0) {
-          const newCard = mockCards[Math.floor(Math.random() * mockCards.length)];
-          setPlayerHand([...playerHand, newCard]);
-          addToGameLog(`You drew ${newCard.name}`);
-        }
-      }, 1000);
-    }, 2000);
+      if (mockCards.length > 0) {
+        const newCard = mockCards[Math.floor(Math.random() * mockCards.length)];
+        setPlayerHand([...playerHand, newCard]);
+        addToGameLog(`You drew ${newCard.name}`);
+      }
+    }, 1000);
   };
 
   const addToGameLog = (message: string) => {
@@ -172,11 +173,11 @@ const BattlePage = () => {
   return (
     <GameLayout>
       <div className="mb-4">
-        <h1 className="text-3xl font-bold mb-2">Battle Arena</h1>
-        <div className="flex items-center text-sm text-gray-300">
+        <h1 className="text-3xl font-bold mb-2 text-shadow">Battle Arena</h1>
+        <div className="flex items-center text-sm text-gray-300 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-full inline-block">
           <span>Turn {turn}</span>
           <span className="mx-2">•</span>
-          <span className={isPlayerTurn ? "text-game-primary" : "text-game-accent"}>
+          <span className={isPlayerTurn ? "text-game-primary font-bold" : "text-game-accent font-bold"}>
             {isPlayerTurn ? "Your Turn" : "Opponent's Turn"}
           </span>
         </div>
