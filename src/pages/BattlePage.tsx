@@ -5,6 +5,8 @@ import PlayerArea from "@/components/battle/PlayerArea";
 import BattleField from "@/components/battle/BattleField";
 import HandArea from "@/components/battle/HandArea";
 import BattleLog from "@/components/battle/BattleLog";
+import { Button } from "@/components/ui/button";
+import { RefreshCw } from "lucide-react";
 
 const BattlePage = () => {
   const {
@@ -24,19 +26,33 @@ const BattlePage = () => {
     handleTargetSelect,
     handleAttack,
     handlePlayCard,
-    handleEndTurn
+    handleEndTurn,
+    resetBattle
   } = useBattleState();
 
   return (
     <GameLayout>
       <div className="mb-4">
-        <h1 className="text-3xl font-bold mb-2 text-shadow">Battle Arena</h1>
-        <div className="flex items-center text-sm text-gray-300 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-full inline-block">
-          <span>Turn {turn}</span>
-          <span className="mx-2">•</span>
-          <span className={isPlayerTurn ? "text-game-primary font-bold" : "text-game-accent font-bold"}>
-            {isPlayerTurn ? "Your Turn" : "Opponent's Turn"}
-          </span>
+        <div className="flex justify-between items-center">
+          <div>
+            <h1 className="text-3xl font-bold mb-2 text-shadow">Battle Arena</h1>
+            <div className="flex items-center text-sm text-gray-300 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-full inline-block">
+              <span>Turn {turn}</span>
+              <span className="mx-2">•</span>
+              <span className={isPlayerTurn ? "text-game-primary font-bold" : "text-game-accent font-bold"}>
+                {isPlayerTurn ? "Your Turn" : "Opponent's Turn"}
+              </span>
+            </div>
+          </div>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={resetBattle}
+            className="border-white/10 hover:bg-white/5"
+          >
+            <RefreshCw className="mr-2 h-4 w-4" />
+            Reset Battle
+          </Button>
         </div>
       </div>
 

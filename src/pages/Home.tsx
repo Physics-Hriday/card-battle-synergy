@@ -5,9 +5,11 @@ import HeroSection from "@/components/home/HeroSection";
 import PlayerStats from "@/components/home/PlayerStats";
 import DecksSection from "@/components/home/DecksSection";
 import QuickActionsGrid from "@/components/home/QuickActionsGrid";
-import { mockPlayer, mockDecks } from "@/data/mockData";
+import { useGameStore } from "@/utils/gameState";
 
 const Home = () => {
+  const { player, decks } = useGameStore();
+
   return (
     <GameLayout>
       <div className="flex flex-col space-y-8">
@@ -15,10 +17,10 @@ const Home = () => {
         <HeroSection />
 
         {/* Player stats section */}
-        <PlayerStats player={mockPlayer} />
+        <PlayerStats player={player} />
 
         {/* Your decks section */}
-        <DecksSection decks={mockDecks} />
+        <DecksSection decks={decks} />
 
         {/* Quick actions */}
         <QuickActionsGrid />
